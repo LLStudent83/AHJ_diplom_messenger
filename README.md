@@ -1,6 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/jnhf1biwfuvdvaq8?svg=true)](https://ci.appveyor.com/project/LLStudent83/ahj-diplom-messenger)
 
-https://llstudent83.github.io/AHJ-diplom-messenger/
+https://llstudent83.github.io/AHJ_diplom_messenger/
 
 
 # Webpack5
