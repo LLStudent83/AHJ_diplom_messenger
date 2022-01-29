@@ -1,0 +1,100 @@
+.messengerWindow {
+  font: inherit;
+  border: 1px solid #726b6b;
+  border-radius: 10px;
+  padding: 15px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 1);
+  width: 600px;
+  position: absolute;
+  top: 0px;
+  left: 200px;
+}
+
+.messages {
+  height: 250px;
+  overflow: auto;
+  margin-bottom: 10px;
+}
+
+.message {
+  width: 70%;
+  margin-bottom: 15px;
+}
+
+.messageData {
+  margin-bottom: 7px;
+}
+
+.myMessage {
+  text-align: right;
+  margin-left: auto;
+}
+
+.myMessage .messageData{
+    color: red;
+}
+
+.messageData {
+  font-size: 12px;
+}
+
+.form_footer {
+  width: 100%;
+  display: flex;
+}
+
+.messageInput {
+  display: inline-block;
+  padding: 5px 10px;
+  font: inherit;
+  border: 1px solid #726b6b;
+  border-radius: 10px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  resize: none;
+  overflow: auto;
+  width: 100%;
+}
+
+.buttonSendMess {
+  width: 100px;
+  padding: 10px 10px;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.activeUsers {
+  border: 1px solid #726b6b;
+  border-radius: 10px;
+  padding: 15px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 1);
+  width: 300px;
+  position: absolute;
+  top: 10px;
+}
+
+.usersList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.user {
+  margin-bottom: 20px;
+}
+
+.userYou {
+    color: red;
+}
+
+.user::before {
+  content: "";
+  width: 35px;
+  height: 35px;
+  border: 1px solid #726b6b;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
