@@ -24,20 +24,31 @@ export default class Messenger {
 
   createMessage(e) {
     const { target } = e;
-    const mesageText = target.querySelector('.messageInput').value;
+    const messageText = target.querySelector('.messageInput').value; // получили текст сообщения
+    const modifyTextMessage = this.checkMessageForLink(messageText);
     const dateMessage = `${new Date().toLocaleTimeString().slice(0, -3)} ${new Date().toLocaleDateString()}`;
     this.message = JSON.stringify({
       action: 'postMessage',
       login: this.login,
-      message: mesageText,
+      message: modifyTextMessage,
       dateMessage,
     });
     this.ws.sendMessage(this.message);
-    this.renderingMessage(mesageText, dateMessage, this.login);
+    this.renderingMessage(modifyTextMessage, dateMessage, this.login);
     target.querySelector('.messageInput').value = '';
   }
 
-  renderingMessage(mesageText, dateMessage, login) {
+  checkMessageForLink(messageText) { // проверяет сообщение на наличие ссылки
+    // eslint-disable-next-line no-useless-escape
+    const regexp = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/igm;
+    const result = messageText.replace(regexp, (str) => `<a href = "${str}">${str}</a>`);
+    if (result !== null) {
+      return result;
+    }
+    return result;
+  }
+
+  renderingMessage(messageText, dateMessage, login) { // рендерит сообщение в окне мессенджера
     let userName = null;
     // eslint-disable-next-line no-unused-expressions
     login === this.login ? userName = 'You' : userName = login;
@@ -45,7 +56,7 @@ export default class Messenger {
     <div class="message">
       <div class="messageData">${userName}, ${dateMessage}</div>
       <div class="messageText">
-      ${mesageText}
+      ${messageText}
       </div>
     </div>`;
     const messagesContaner = document.querySelector('.messages');

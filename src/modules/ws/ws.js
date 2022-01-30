@@ -9,7 +9,7 @@ export default class Ws {
   constructor(pop_Up) {
     this.pop_Up = pop_Up;
     if (!this.ws) {
-      this.ws = new WebSocket('wss://ahj-diplom-messenger-server.herokuapp.com/');
+      this.ws = new WebSocket('ws://localhost:8080'); // wss://ahj-diplom-messenger-server.herokuapp.com/
       this.addEventListener();
     }
   }

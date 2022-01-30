@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 // import createRequest from '../http/createRequest';
 // eslint-disable-next-line import/no-cycle
@@ -53,11 +54,11 @@ export default class PopUp {
     return HTML;
   }
 
-  renderingMessenger() {
+  renderingMessenger() { // рендерит окно мессенджера
     this.container.innerHTML = this.getHTMLMessenger();
   }
 
-  openMessenger(activeUsers, userName, messages = []) {
+  openMessenger(activeUsers, userName, messages = []) { // срабатывает при входе в мессенджер. Рендерит подключенных пользователей и список сообщений
     this.renderingMessenger();
     this.usersList = document.querySelector('.usersList');
     activeUsers.forEach((user) => {
@@ -81,7 +82,7 @@ export default class PopUp {
     }
   }
 
-  onClickPopUp(event) { // обрабатывает клик по форме регистрации
+  onClickPopUp(event) { // обрабатывает клик по кнопке входа в форме регистрации
     const { target } = event;
     if (target.classList.contains('form_continue')) messenger.signIn(event);
   }
