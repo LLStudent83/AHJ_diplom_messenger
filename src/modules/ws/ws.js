@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable camelcase */
 
 // eslint-disable-next-line import/no-cycle
-import { messenger } from '../../app';
+import { message } from '../../app';
 
 /* eslint-disable class-methods-use-this */
 export default class Ws {
@@ -15,8 +16,9 @@ export default class Ws {
   }
 
   addEventListener() {
-    // eslint-disable-next-line no-console
     this.ws.addEventListener('open', () => { console.log('WS соединенеие установлено'); });
+    this.ws.addEventListener('close', () => { console.log('WS соединенеие закрыто!!!!!!!!!!'); });
+
     this.ws.addEventListener('message', (e) => {
       this.handlerMessage(e);
     });
@@ -25,13 +27,14 @@ export default class Ws {
     });
   }
 
-  sendMessage(message) { // логика отправки сообщения на сервер
-    if (this.ws.readyState === WebSocket.OPEN) { this.ws.send(message); }
-    this.login = JSON.parse(message).login;// прокинул имя пользователя в ws
+  sendMessage(_message) { // логика отправки сообщения на сервер
+    if (this.ws.readyState === WebSocket.OPEN) { this.ws.send(_message); }
+    this.login = JSON.parse(_message).login;// прокинул имя пользователя в ws
   }
 
-  handlerMessage(e) {
+  handlerMessage(e) { // обрабатывает входящие сообщения
     const { action, response } = JSON.parse(e.data);
+
     if (action === 'signIn' && this.login) {
       if (response.status === 'ok') {
         this.pop_Up.closepopUp();
@@ -42,16 +45,25 @@ export default class Ws {
         alert('Пользователь с таким именем в чате уже зарегистрирован');
       }
     }
-    if (action === 'postMessage') {
+    if (action === 'postMessage') { // обработка поступившего с сервера сообщения
       if (response.login === this.login) return;
-      messenger.renderingMessage(response.message, response.dateMessage, response.login);
-    }
+      if (response.typeMes === 'text') message.createTextMessage(response.message, response.coordinates, response.login, response.dateMessage);
+      if (response.typeMes === 'audioRecord') message.createAudioMessage(response.message, response.coordinates, response.login, response.dateMessage);
+      if (response.typeMes === 'image'
+      || response.typeMes === 'audio'
+      || response.typeMes === 'video') message.createFileMessage(response.message, response.coordinates, response.login, response.dateMessage, response.typeMes, response.filesName);
+    } // createFileMessage(arrURLBase64, this.coordString, this.ws.login, dataMes, typeFileName, this.popUpAddFile.filesName);
   }
-
-  // eslint-disable-next-line no-unused-vars
+  // action: 'postMessage',
+  // login: this.ws.login,
+  // message: arrURLBase64, // закодированные в строку двоичные данные
+  // dateMessage: dataMes,
+  // coordinates: this.coordString,
+  // typeMes: typeFileName, // image, audio или video
+  // filesName: this.popUpAddFile.filesName,
 
   handlerErrorWS(e) {
     // eslint-disable-next-line no-console
-    console.log('Произошла ошибка', e);
+    console.log('Произошла ошибка WS', e);
   }
 }

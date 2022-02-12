@@ -12,36 +12,11 @@
 }
 
 .messages {
-  height: 250px;
+  height: 450px;
   overflow: auto;
   margin-bottom: 10px;
 }
 
-.message {
-  width: 70%;
-  margin-bottom: 15px;
-  border: 1px solid #726b6b;
-  border-radius: 10px;
-  padding: 5px 10px;
-
-}
-
-.messageData {
-  margin-bottom: 7px;
-}
-
-.myMessage {
-  text-align: right;
-  margin-left: auto;
-}
-
-.myMessage .messageData{
-    color: red;
-}
-
-.messageData {
-  font-size: 12px;
-}
 
 .form_footer {
   width: 100%;
@@ -61,12 +36,6 @@
   width: 100%;
 }
 
-.buttonSendMess {
-  width: 100px;
-  padding: 10px 10px;
-  display: inline-block;
-  margin-left: 10px;
-}
 
 .activeUsers {
   border: 1px solid #726b6b;
@@ -102,3 +71,78 @@
   vertical-align: middle;
   margin-right: 10px;
 }
+
+
+
+
+.buttonForm {
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.buttonForm:hover {
+  background-color: rgba(228, 225, 225, 0.459);
+}
+
+.buttonForm:active {
+  outline: 1px solid black;
+}
+
+.postAudioRecording {
+  background-image: url(../../../img/microphone.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+}
+
+.okAudioRecording {
+  background-image: url(../../../img/m_images_mark.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px;
+}
+
+.cansellAudioRecording {
+  background-image: url(../../../img/m_png-clipclose-button.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px;
+}
+
+.input__file-button {
+  background-image: url(../../../img/paperClip.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px;
+  display: block;
+}
+
+.input__file {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.timer {
+  font-size: 30px;
+  text-align: center;
+width: 90px;
+height: 40px;
+margin-left: 15px;
+}
+
+.formText {
+  flex-grow: 2;
+  height: 100%;
+  outline: none;
+  resize: none;
+  border: none;
+} 
