@@ -3,23 +3,21 @@
 
 /* eslint-disable no-alert */
 export default class InputForm {
-  constructor(message, gps, popUpGps, timer, ws, popUpAddFile) {
+  constructor(message, gps, popUpGps, timer, ws, popUpAddFile, lazyLoadingMessages) {
     this.messageApi = message;
     this.gps = gps;
     this.popUpGps = popUpGps;
     this.timer = timer;
     this.ws = ws;
     this.popUpAddFile = popUpAddFile;
+    this.lLM = lazyLoadingMessages;
   }
 
-  eventHandler(e) { // обрабатывает клики по полю ввода сообщения. или текст или аудио
-    // this.addFileButton = document.querySelector('.input__file-button');
-    // this.addFileInput = document.querySelector('.input__file');
-    this.soundRecordingButton = document.querySelector('.postAudioRecording');
+  eventHandler(e) { // обрабатывает клик по кнопке записи аудио и при нажатии enter при отправке текстового сообщения
     this.textarea = document.querySelector('.messageInput');
+    this.soundRecordingButton = document.querySelector('.postAudioRecording');
     const { target, key } = e;
     if (target === this.textarea && key === 'Enter') {
-      // e.preventDefault();
       this.createTextMessage(this.textarea.value);
       return;
     }
@@ -67,7 +65,16 @@ export default class InputForm {
             reader.onerror = () => reject(reader.error);
           });
           this.coordString = await this.gps.getСoordinates();
-          this.messageApi.createAudioMessage(dataURLBase64, this.coordString, this.ws.login, dataMes);
+          const objMessageData = {
+            message: dataURLBase64,
+            dateMessage: dataMes,
+            login: this.ws.login,
+            coordinates: this.coordString,
+            typeMes: 'audioRecord',
+            filesName: null,
+          };
+          this.messageApi.printMessage(objMessageData, 'toTheEnd');
+          // this.messageApi.createAudioMessage(dataURLBase64, this.coordString, this.ws.login, dataMes);
           this.message = JSON.stringify({
             action: 'postMessage',
             login: this.ws.login,
@@ -94,8 +101,15 @@ export default class InputForm {
     const modifyTextMessage = this.checkMessageForLink(text);
     this.popUpGps.text = modifyTextMessage;
     this.coordString = await this.gps.getСoordinates();
-    this.messageApi.createTextMessage(modifyTextMessage, this.coordString, this.ws.login, dataMes);
-    this.textarea.value = '';
+    const objMessageData = {
+      message: modifyTextMessage,
+      dateMessage: dataMes,
+      login: this.ws.login,
+      coordinates: this.coordString,
+      typeMes: 'text',
+      filesName: null,
+    };
+    this.messageApi.printMessage(objMessageData, 'toTheEnd');
     this.message = JSON.stringify({
       action: 'postMessage',
       login: this.ws.login,
@@ -107,10 +121,7 @@ export default class InputForm {
     this.ws.sendMessage(this.message);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async createMessageFile(files) {
-    // const addFileInput = document.querySelector('.input__file');
-    // const { files } = addFileInput;
     const resultPopUpAddFile = await this.popUpAddFile.renderingPopUp(files); // Ждем результата действия пользователя по отправке файла. кликнет "отправить" вернется файл
     if (resultPopUpAddFile === 'canсell') { // пользователь отменил отправку файла
       document.querySelector('.popup').remove();
@@ -132,14 +143,24 @@ export default class InputForm {
       }
       const typeFileName = typeFile.match(/\w*(?=\/)/i)[0]; // получим image, audio или video
       this.coordString = await this.gps.getСoordinates();
-      this.messageApi.createFileMessage(arrURLBase64, this.coordString, this.ws.login, dataMes, typeFileName, this.popUpAddFile.filesName);
+      const objMessageData = {
+        message: arrURLBase64,
+        dateMessage: dataMes,
+        login: this.ws.login,
+        coordinates: this.coordString,
+        typeMes: typeFileName,
+        filesName: this.popUpAddFile.filesName,
+      };
+      this.messageApi.printMessage(objMessageData, 'toTheEnd');
+
+      // this.messageApi.createFileMessage(arrURLBase64, this.coordString, this.ws.login, dataMes, typeFileName, this.popUpAddFile.filesName);
       this.message = JSON.stringify({
         action: 'postMessage',
         login: this.ws.login,
         message: arrURLBase64, // закодированные в строку двоичные данные
         dateMessage: dataMes,
         coordinates: this.coordString,
-        typeMes: typeFileName, // image, audio или video
+        typeMes: typeFileName, // примет значение image, audio или video
         filesName: this.popUpAddFile.filesName,
       });
       this.ws.sendMessage(this.message);

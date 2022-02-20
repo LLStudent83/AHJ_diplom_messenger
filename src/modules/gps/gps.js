@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 // eslint-disable-next-line import/no-cycle
@@ -8,9 +9,10 @@ export default class Gps {
   }
 
   async getСoordinates() { // получает координаты
-    let position = null;
-    let coordString = null;
-    if (!navigator.geolocation) {
+    if (this.coordString) {
+      return this.coordString;
+    }
+    if (!navigator.geolocation) { // Проверить есть или нет сохраненные координаты
       this.popUpGps.renderingPopUp();
       return;
     }
@@ -19,18 +21,17 @@ export default class Gps {
         (e) => reject(e), { timeout: 5000 }); // ожидание координат 5 сек. потом выбросит исключение
     });
     try {
-      position = await promise;
-      const { latitude, longitude } = position.coords;
-      coordString = `[${latitude}, ${longitude}]`;
+      this.position = await promise;
+      const { latitude, longitude } = this.position.coords;
+      this.coordString = `[${latitude}, ${longitude}]`;
       // eslint-disable-next-line consistent-return
-      return coordString;
+      return this.coordString;
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log('ошибка при получении координат', e);
     }
-    coordString = await this.popUpGps.renderingPopUp();
-    // eslint-disable-next-line consistent-return
-    return coordString;
+    this.coordString = await this.popUpGps.renderingPopUp(); // Проверить есть или нет сохраненные координаты
+    return this.coordString;
   }
 
   showPosition() {

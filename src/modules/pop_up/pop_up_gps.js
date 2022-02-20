@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 // eslint-disable-next-line import/no-cycle
-import { inputForm, message } from '../../app';
+import { gps } from '../../app';
 
 import validationCoord from '../../validation/validationCoord';
 
@@ -8,10 +9,10 @@ export default class PopUpGPS {
     this.container = document.querySelector('.container');
   }
 
-  static getData() {
-    const dateMessage = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString().slice(0, -3)}`;
-    return dateMessage;
-  }
+  // static getData() {
+  //   const dateMessage = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString().slice(0, -3)}`;
+  //   return dateMessage;
+  // }
 
   // eslint-disable-next-line class-methods-use-this
   getHTMLPopUp() { // получаем html разметку окна при отсутствии данных GPS

@@ -1,8 +1,10 @@
-/* eslint-disable max-len */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-self-assign */
 /* eslint-disable class-methods-use-this */
-// import createRequest from '../http/createRequest';
 // eslint-disable-next-line import/no-cycle
-import { messenger, inputForm, message } from '../../app';
+import {
+  messenger, inputForm, message, lazyLoadingMessages,
+} from '../../app';
 
 export default class PopUp {
   constructor(container) {
@@ -34,7 +36,7 @@ export default class PopUp {
     const forma = containerForm.querySelector('.form');
     forma.addEventListener('click', (event) => {
       // event.preventDefault();
-      this.onClickPopUp(event);
+      this.onClickPopUpStart(event);
     });
   }
 
@@ -44,7 +46,7 @@ export default class PopUp {
         <ul class="usersList"></ul>
       </div>
       <form class="form messengerWindow" action="">
-        <div class ="messages"></div>
+        <div class ="messages" id="scrollArea"></div>
         <footer class="form_footer">
         <textarea class="messageInput dropzone" type="text" placeholder="Введите сообщение и нажмите Enter
         или перетащите файл" name='messageText'></textarea>
@@ -62,7 +64,11 @@ export default class PopUp {
     this.container.innerHTML = this.getHTMLMessenger();
   }
 
-  openMessenger(activeUsers, userName, messages = []) { // срабатывает при входе в мессенджер. Рендерит подключенных пользователей и список сообщений
+  // срабатывает при входе в мессенджер. Рендерит подключенных пользователей и список сообщений
+  openMessenger(activeUsers, userName, messages = []) {
+    // Прокинул в lazyLoadingMessages массив сообщений
+    // для дальнейшего рендеринга в мессенджере при прокрутке вверх
+    lazyLoadingMessages.messages = messages;
     this.renderingMessenger();
     this.usersList = document.querySelector('.usersList');
     activeUsers.forEach((user) => {
@@ -74,47 +80,59 @@ export default class PopUp {
       }
       this.usersList.innerHTML += html;
     });
-    this.inputForm = document.querySelector('.messageInput');
 
-    this.addFileInput = document.querySelector('.input__file');
+    this.inputFormEl = document.querySelector('.messageInput');
+    this.addFileInput = document.querySelector('.input__file'); // кнопка добавления файла
     this.form = document.querySelector('.form');
-    this.form.addEventListener('click', (e) => { // обработаем клин на форме !!!!
+    this.addEventListenerMessenger();
+    this.lastMessages = [];
+    // выводим в мессенджере последние 5 сообщений
+    if (messages.length === 0) {
+      return;
+    }
+    if (messages.length > 5) {
+      this.lastMessages = messages.splice(-5, 5);
+      // прокинул массив сообщений в lazyLoadingMessages для отрисовки по частям
+      lazyLoadingMessages.allMessages = messages;
+    }
+    if (messages.length <= 5) {
+      this.lastMessages = messages;
+    }
+    for (let i = 0; i <= this.lastMessages.length - 1; i += 1) {
+      const traceable = i === 0 ? 'traceable' : null; // если элемент последний в серии добавить ему класс traceable
+      this.lastMessages[i].traceable = traceable;
+      message.printMessage(this.lastMessages[i], 'toTheEnd');
+    }
+    if (messages.length >= 5) {
+      lazyLoadingMessages.lazyLoadingMessage(document.querySelectorAll('.traceable'));
+    }
+  }
+
+  addEventListenerMessenger() {
+    this.form.addEventListener('click', (e) => { // обработаем клик на форме !!!!
       inputForm.eventHandler(e);
     });
-    this.inputForm.addEventListener('keydown', (e) => inputForm.eventHandler(e));
-    this.inputForm.addEventListener('drop', (e) => {
+    this.inputFormEl.addEventListener('keydown', (e) => inputForm.eventHandler(e));
+    this.inputFormEl.addEventListener('drop', (e) => {
       e.preventDefault();
-      this.inputForm.style.borderWidth = '1px';
+      this.inputFormEl.style.borderWidth = '1px';
       const { files } = e.dataTransfer;
       inputForm.createMessageFile(files);
     });
-    this.inputForm.addEventListener('dragenter', () => {
-      this.inputForm.style.borderWidth = '2px';
+    this.inputFormEl.addEventListener('dragenter', () => {
+      this.inputFormEl.style.borderWidth = '2px';
     });
-    this.inputForm.addEventListener('dragleave', () => {
-      this.inputForm.style.borderWidth = '1px';
+    this.inputFormEl.addEventListener('dragleave', () => {
+      this.inputFormEl.style.borderWidth = '1px';
     });
-
     this.addFileInput.addEventListener('change', () => {
       const addFileInput = document.querySelector('.input__file');
       const { files } = addFileInput;
       inputForm.createMessageFile(files);
     });
-    if (messages.length === 0) return;
-    for (const item of messages) {
-      const {
-        login, dateMessage, coordinates, typeMes, filesName,
-      } = item;
-      const messageCont = item.message;
-      if (typeMes === 'text') message.createTextMessage(messageCont, coordinates, login, dateMessage);
-      if (typeMes === 'audioRecord') message.createAudioMessage(messageCont, coordinates, login, dateMessage);
-      if (typeMes === 'image'
-      || typeMes === 'audio'
-      || typeMes === 'video') message.createFileMessage(messageCont, coordinates, login, dateMessage, typeMes, filesName);
-    }
   }
 
-  onClickPopUp(event) { // обрабатывает клик по кнопке входа в форме регистрации
+  onClickPopUpStart(event) { // обрабатывает клик по кнопке входа в форме регистрации
     const { target } = event;
     if (target.classList.contains('form_continue')) messenger.signIn(event);
   }

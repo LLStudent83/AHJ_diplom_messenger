@@ -12,11 +12,6 @@ export default class Messenger {
 
   async init() {
     this.popUp.renderingPopUpStart();
-    // window.addEventListener('DOMContentLoaded', () => {
-    //   document.addEventListener('drag', (e) => {
-    //     console.log('началось перетаскивание', e);
-    //   });
-    // });
   }
 
   signIn(event) { // формируем и отправляем запрос на сервер на регистрацию
