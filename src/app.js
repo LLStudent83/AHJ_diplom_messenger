@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-cycle */
 import PopUp from './modules/pop_up/pop_up';
@@ -23,7 +22,8 @@ const lazyLoadingMessages = new LazyLoadingMessages(ws);
 const gps = new Gps(popUpGps);
 const messenger = new Messenger(popUp, ws);
 const message = new Message(messagesEl, gps, popUpAddFile);
-const inputForm = new InputForm(message, gps, popUpGps, timer, ws, popUpAddFile, lazyLoadingMessages);
+const inputForm = new InputForm(message, gps, popUpGps,
+  timer, ws, popUpAddFile, lazyLoadingMessages);
 
 export {
   popUp, messenger, ws, inputForm, message, lazyLoadingMessages, gps,

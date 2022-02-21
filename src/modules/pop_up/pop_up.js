@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-self-assign */
-/* eslint-disable class-methods-use-this */
 // eslint-disable-next-line import/no-cycle
 import {
   messenger, inputForm, message, lazyLoadingMessages,
@@ -13,6 +12,7 @@ export default class PopUp {
     } else this.container = container;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getHTMLPopUpStart() { // возвращает html разметку стартового окна
     const HTML = `
         <form class="form choosePseudonym" action="">
@@ -40,6 +40,7 @@ export default class PopUp {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getHTMLMessenger() { // возвращает html разметку окна мессенджера
     const HTML = `  
       <div class="activeUsers">
@@ -103,7 +104,7 @@ export default class PopUp {
       this.lastMessages[i].traceable = traceable;
       message.printMessage(this.lastMessages[i], 'toTheEnd');
     }
-    if (messages.length >= 5) {
+    if (messages.length > 5) {
       lazyLoadingMessages.lazyLoadingMessage(document.querySelectorAll('.traceable'));
     }
   }
@@ -132,11 +133,13 @@ export default class PopUp {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   onClickPopUpStart(event) { // обрабатывает клик по кнопке входа в форме регистрации
     const { target } = event;
     if (target.classList.contains('form_continue')) messenger.signIn(event);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   closepopUp() {
     if (document.querySelector('.popup')) {
       document.querySelector('.popup').remove();

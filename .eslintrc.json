@@ -3,7 +3,8 @@
   "env": {
      "es6": true,
      "browser": true,
-     "jest": true
+     "jest": true,
+     "serviceworker": true
   },
   "rules": {
     "no-restricted-syntax": [

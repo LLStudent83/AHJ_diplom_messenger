@@ -10,7 +10,6 @@ export default class Message {
 
   printMessage(objMessageData, place) {
     this.messagesContaner = document.querySelector('.messages');
-
     const {
       login, coordinates, dateMessage, typeMes, filesName, message, traceable,
     } = objMessageData;
@@ -27,7 +26,6 @@ export default class Message {
       this.HTML = this.createHTMLFileMessage(message, coordinates,
         login, dateMessage, typeMes, filesName);
     }
-
     const messageEl = document.createElement('div');
     messageEl.classList.add('message');
     if (login === this.login) messageEl.classList.add('myMessage');

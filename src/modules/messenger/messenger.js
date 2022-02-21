@@ -1,5 +1,4 @@
 /* eslint-disable import/no-cycle */
-/* eslint-disable class-methods-use-this */
 import { message } from '../../app';
 
 export default class Messenger {

@@ -42,7 +42,7 @@ export default class lazyLoadingMessages {
       this.sliceAllMessages = this.allMessages.splice(-5, 5);
 
       // отрисовываем следующие 5 сообщений
-      for (let i = 0; i <= this.sliceAllMessages.length - 1; i += 1) {
+      for (let i = this.sliceAllMessages.length - 1; i >= 0; i -= 1) {
         const traceable = i === 0 ? 'traceable' : null; // если элемент последний в серии добавить ему класс traceable
         this.sliceAllMessages[i].traceable = traceable;
         message.printMessage(this.sliceAllMessages[i], 'toTheBegining');

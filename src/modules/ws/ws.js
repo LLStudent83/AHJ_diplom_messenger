@@ -3,7 +3,6 @@
 // eslint-disable-next-line import/no-cycle
 import { message } from '../../app';
 
-/* eslint-disable class-methods-use-this */
 export default class Ws {
   constructor(popUp) {
     this.popUp = popUp;
@@ -35,7 +34,6 @@ export default class Ws {
     const {
       activeUsers, allMessages, status, login,
     } = response;
-    // const messageData = response.message;
     if (action === 'signIn' && this.login) {
       if (status === 'ok') {
         this.popUp.closepopUp();
@@ -50,20 +48,10 @@ export default class Ws {
       if (login === this.login) return;
 
       message.printMessage(response, 'toTheEnd');
-      // if (typeMes === 'text') {
-      //   message.createTextMessage(messageData, coordinates, login, dateMessage);
-      // }
-      // if (typeMes === 'audioRecord') {
-      //   message.createAudioMessage(messageData, coordinates, login, dateMessage);
-      // }
-      // if (typeMes === 'image'
-      // || typeMes === 'audio'
-      // || typeMes === 'video') {
-      //   message.createFileMessage(messageData, coordinates, login, dateMessage, typeMes, filesName);
-      // }
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   handlerErrorWS(e) {
     // eslint-disable-next-line no-console
     console.log('Произошла ошибка WS', e);

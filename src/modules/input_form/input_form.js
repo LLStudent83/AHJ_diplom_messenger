@@ -1,5 +1,4 @@
 /* eslint-disable no-await-in-loop */
-/* eslint-disable max-len */
 
 /* eslint-disable no-alert */
 export default class InputForm {
@@ -13,7 +12,8 @@ export default class InputForm {
     this.lLM = lazyLoadingMessages;
   }
 
-  eventHandler(e) { // обрабатывает клик по кнопке записи аудио и при нажатии enter при отправке текстового сообщения
+  // обрабатывает клик по кнопке записи аудио и при нажатии enter при отправке текстового сообщения
+  eventHandler(e) {
     this.textarea = document.querySelector('.messageInput');
     this.soundRecordingButton = document.querySelector('.postAudioRecording');
     const { target, key } = e;
@@ -74,7 +74,6 @@ export default class InputForm {
             filesName: null,
           };
           this.messageApi.printMessage(objMessageData, 'toTheEnd');
-          // this.messageApi.createAudioMessage(dataURLBase64, this.coordString, this.ws.login, dataMes);
           this.message = JSON.stringify({
             action: 'postMessage',
             login: this.ws.login,
@@ -122,7 +121,8 @@ export default class InputForm {
   }
 
   async createMessageFile(files) {
-    const resultPopUpAddFile = await this.popUpAddFile.renderingPopUp(files); // Ждем результата действия пользователя по отправке файла. кликнет "отправить" вернется файл
+    // Ждем результата действия пользователя по отправке файла. кликнет "отправить", вернется файл
+    const resultPopUpAddFile = await this.popUpAddFile.renderingPopUp(files);
     if (resultPopUpAddFile === 'canсell') { // пользователь отменил отправку файла
       document.querySelector('.popup').remove();
     } else { // пользователь согласился отправить файл
@@ -153,7 +153,6 @@ export default class InputForm {
       };
       this.messageApi.printMessage(objMessageData, 'toTheEnd');
 
-      // this.messageApi.createFileMessage(arrURLBase64, this.coordString, this.ws.login, dataMes, typeFileName, this.popUpAddFile.filesName);
       this.message = JSON.stringify({
         action: 'postMessage',
         login: this.ws.login,

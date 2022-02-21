@@ -42,7 +42,18 @@ module.exports = {
         test: /\.svg$/,
         type: 'asset/resource',
       },
-    ],
+      {
+        test: /servise.worker\.js$/,
+        loaders: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          }
+        ]
+      },
+    ]
   },
   plugins: [
     new HtmlWebPackPlugin({
