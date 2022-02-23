@@ -2,14 +2,14 @@
 
 /* eslint-disable no-alert */
 export default class InputForm {
-  constructor(message, gps, popUpGps, timer, ws, popUpAddFile, lazyLoadingMessages) {
-    this.messageApi = message;
-    this.gps = gps;
-    this.popUpGps = popUpGps;
-    this.timer = timer;
-    this.ws = ws;
-    this.popUpAddFile = popUpAddFile;
-    this.lLM = lazyLoadingMessages;
+  constructor(argsInputForm) {
+    this.messageApi = argsInputForm.message;
+    this.gps = argsInputForm.gps;
+    this.popUpGps = argsInputForm.popUpGps;
+    this.timer = argsInputForm.timer;
+    this.ws = argsInputForm.ws;
+    this.popUpAddFile = argsInputForm.popUpAddFile;
+    this.lLM = argsInputForm.lazyLoadingMessages;
   }
 
   // обрабатывает клик по кнопке записи аудио и при нажатии enter при отправке текстового сообщения
@@ -27,8 +27,22 @@ export default class InputForm {
   }
 
   static getData() {
-    const dateMessage = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString().slice(0, -3)}`;
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString().slice(0, -3);
+    const dateMessage = `${date} ${time}`;
     return dateMessage;
+  }
+
+  async getObjMessage(action, message, typeMes, filesName) {
+    return {
+      action,
+      login: this.ws.login,
+      message,
+      dateMessage: InputForm.getData(),
+      coordinates: await this.gps.getСoordinates(),
+      typeMes,
+      filesName,
+    };
   }
 
   async soundRecord() { // записывает аудиосообщение
@@ -36,7 +50,6 @@ export default class InputForm {
       alert('Ваше устройство не поддерживаетс запись звука. Зайдите в приложение с другого устройства');
       return;
     }
-    const dataMes = InputForm.getData();
     this.modificationForm('record'); // изменяет вид формы при записи аудио
     const constraints = {
       audio: true,
@@ -53,40 +66,7 @@ export default class InputForm {
         chunks.push(e.data);
       });
       this.recorder.addEventListener('stop', async () => {
-        this.modificationForm('text');
-        if (this.recordingResult === 'message') {
-          this.stream.getTracks().forEach((track) => track.stop());
-          const blob = new Blob(chunks, { type: 'audio/webm' });
-
-          const dataURLBase64 = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject(reader.error);
-          });
-          this.coordString = await this.gps.getСoordinates();
-          const objMessageData = {
-            message: dataURLBase64,
-            dateMessage: dataMes,
-            login: this.ws.login,
-            coordinates: this.coordString,
-            typeMes: 'audioRecord',
-            filesName: null,
-          };
-          this.messageApi.printMessage(objMessageData, 'toTheEnd');
-          this.message = JSON.stringify({
-            action: 'postMessage',
-            login: this.ws.login,
-            message: dataURLBase64,
-            dateMessage: dataMes,
-            coordinates: this.coordString,
-            typeMes: 'audioRecord',
-          });
-          this.ws.sendMessage(this.message);
-        } else {
-          chunks.length = 0;
-          this.stream.getTracks().forEach((track) => track.stop());
-        }
+        this.stopEventHandlerRecordAudio(chunks);
       });
       this.recorder.start();
     } catch (e) {
@@ -95,29 +75,33 @@ export default class InputForm {
     }
   }
 
+  async stopEventHandlerRecordAudio(chunks) {
+    this.modificationForm('text');
+    if (this.recordingResult === 'message') {
+      this.stream.getTracks().forEach((track) => track.stop());
+      const blob = new Blob(chunks, { type: 'audio/webm' });
+      const dataURLBase64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+      });
+      const objMessageData = await this.getObjMessage('postMessage', dataURLBase64, 'audioRecord', null);
+      this.messageApi.printMessage(objMessageData, 'toTheEnd');
+      this.ws.sendMessage(JSON.stringify(objMessageData));
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      chunks.length = 0;
+      this.stream.getTracks().forEach((track) => track.stop());
+    }
+  }
+
   async createTextMessage(text) {
-    const dataMes = InputForm.getData();
     const modifyTextMessage = this.checkMessageForLink(text);
     this.popUpGps.text = modifyTextMessage;
-    this.coordString = await this.gps.getСoordinates();
-    const objMessageData = {
-      message: modifyTextMessage,
-      dateMessage: dataMes,
-      login: this.ws.login,
-      coordinates: this.coordString,
-      typeMes: 'text',
-      filesName: null,
-    };
+    const objMessageData = await this.getObjMessage('postMessage', modifyTextMessage, 'text', null);
     this.messageApi.printMessage(objMessageData, 'toTheEnd');
-    this.message = JSON.stringify({
-      action: 'postMessage',
-      login: this.ws.login,
-      message: modifyTextMessage,
-      dateMessage: dataMes,
-      coordinates: this.coordString,
-      typeMes: 'text',
-    });
-    this.ws.sendMessage(this.message);
+    this.ws.sendMessage(JSON.stringify(objMessageData));
   }
 
   async createMessageFile(files) {
@@ -126,7 +110,6 @@ export default class InputForm {
     if (resultPopUpAddFile === 'canсell') { // пользователь отменил отправку файла
       document.querySelector('.popup').remove();
     } else { // пользователь согласился отправить файл
-      const dataMes = InputForm.getData();
       document.querySelector('.popup').remove();
       // добавить отправку на сервер
       const arrURLBase64 = [];
@@ -142,27 +125,11 @@ export default class InputForm {
         arrURLBase64.push(base64);
       }
       const typeFileName = typeFile.match(/\w*(?=\/)/i)[0]; // получим image, audio или video
-      this.coordString = await this.gps.getСoordinates();
-      const objMessageData = {
-        message: arrURLBase64,
-        dateMessage: dataMes,
-        login: this.ws.login,
-        coordinates: this.coordString,
-        typeMes: typeFileName,
-        filesName: this.popUpAddFile.filesName,
-      };
+      const { filesName } = this.popUpAddFile;
+      const objMessageData = await this.getObjMessage('postMessage', arrURLBase64, typeFileName, filesName);
       this.messageApi.printMessage(objMessageData, 'toTheEnd');
 
-      this.message = JSON.stringify({
-        action: 'postMessage',
-        login: this.ws.login,
-        message: arrURLBase64, // закодированные в строку двоичные данные
-        dateMessage: dataMes,
-        coordinates: this.coordString,
-        typeMes: typeFileName, // примет значение image, audio или video
-        filesName: this.popUpAddFile.filesName,
-      });
-      this.ws.sendMessage(this.message);
+      this.ws.sendMessage(JSON.stringify(objMessageData));
     }
   }
 
