@@ -137,11 +137,7 @@ export default class InputForm {
   checkMessageForLink(messageText) { // проверяет сообщение на наличие ссылки
     // eslint-disable-next-line no-useless-escape
     const regexp = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/igm;
-    const result = messageText.replace(regexp, (str) => `<a href = "${str}">${str}</a>`);
-    if (result !== null) {
-      return result;
-    }
-    return result;
+    return messageText.replace(regexp, (str) => `<a href = "${str}">${str}</a>`);
   }
 
   modificationForm(state) { // меняет вид формы под запись аудио и обратно для ввода текста
@@ -154,10 +150,8 @@ export default class InputForm {
       `;
       this.footerForm = document.querySelector('.form_footer');
       this.footerForm.innerHTML += htmlAudioRecord;
-      // this.timer.startTimer();
       this.buttonOk = this.footerForm.querySelector('.okAudioRecording');
       this.buttonCansell = this.footerForm.querySelector('.cansellAudioRecording');
-
       this.buttonOk.addEventListener('click', () => {
         this.recordingResult = 'message';
         this.recorder.stop();
@@ -169,7 +163,6 @@ export default class InputForm {
     }
     if (state === 'text') {
       this.timer.stopTimer();
-
       this.buttonOk.remove();
       this.buttonCansell.remove();
       this.footerForm.querySelector('.timer').remove();

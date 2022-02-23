@@ -8,6 +8,13 @@ export default class Message {
     this.popUpAddFile = popUpAddFile;
   }
 
+  getUserName(login) {
+    if (login === this.login) {
+      return 'You';
+    }
+    return login;
+  }
+
   printMessage(objMessageData, place) {
     this.messagesContaner = document.querySelector('.messages');
     const {
@@ -40,7 +47,7 @@ export default class Message {
   createHTMLAudioMessage(dataURLBase64, coordinates, login, date) {
     let userName = null;
     // eslint-disable-next-line no-unused-expressions
-    login === this.login ? userName = 'You' : userName = login;
+    userName = this.getUserName(login);
     inputForm.stream = null;
     return `
     <div class="messageData">${userName}, ${date}</div>
@@ -55,7 +62,7 @@ export default class Message {
   createHTMLTextMessage(text, coordinates, login, date) {
     let userName = null;
     // eslint-disable-next-line no-unused-expressions
-    login === this.login ? userName = 'You' : userName = login;
+    userName = this.getUserName(login);
     document.querySelector('.messageInput').value = '';
 
     return `<div class="messageData">${userName}, ${date}</div>
@@ -68,11 +75,10 @@ export default class Message {
   }
 
   createHTMLFileMessage(arrURLBase64, coordinates, login, date, typeFileName, filesName) {
-    let tag;
-    tag = typeFileName === 'image' ? tag = 'img' : tag = typeFileName;
+    const tag = typeFileName === 'image' ? 'img' : typeFileName;
     let userName = null;
     // eslint-disable-next-line no-unused-expressions
-    login === this.login ? userName = 'You' : userName = login;
+    userName = this.getUserName(login);
     return `
     <div class="messageData">${userName}, ${date}</div>
         <div class="messagCont">

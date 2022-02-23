@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-cycle */
-import PopUp from './modules/pop_up/pop_up';
-import PopUpGps from './modules/pop_up/pop_up_gps';
-import PopUpAddFile from './modules/pop_up/pop_up_addFile';
+import PopUp from './modules/popUp/PopUp';
+import PopUpGps from './modules/popUp/PopUpGPS';
+import PopUpAddFile from './modules/popUp/PopUpAddFile';
 import LazyLoadingMessages from './modules/lazyLoading/lazyLoadingMessages';
 
 import InputForm from './modules/inputForm/InputForm';
 import Messenger from './modules/messenger/messenger';
-import Ws from './modules/ws/ws';
+import Ws from './modules/ws/Ws';
 import Gps from './modules/gps/Gps';
 import Message from './modules/message/message';
-import Timer from './modules/timer/timer';
+import Timer from './modules/timer/Timer';
 
 const messagesEl = document.querySelector('.messages');
 const popUpAddFile = new PopUpAddFile();
