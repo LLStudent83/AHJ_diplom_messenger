@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import './app';
+import './modules/lazyLoading/LazyLoadingMessages';
 import './style.css';
 import './modules/popUp/popUpStyle.css';
 import './modules/popUp/PopUp';
