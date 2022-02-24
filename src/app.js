@@ -5,10 +5,10 @@ import PopUpGps from './modules/popUp/PopUpGPS';
 import PopUpAddFile from './modules/popUp/PopUpAddFile';
 import LazyLoadingMessages from './modules/lazyLoading/LazyLoadingMessages';
 import InputForm from './modules/inputForm/InputForm';
-import Messenger from './modules/messenger/messenger';
+import Messenger from './modules/messenger/Messenger';
 import Ws from './modules/ws/Ws';
 import Gps from './modules/gps/Gps';
-import Message from './modules/message/message';
+import Message from './modules/message/Message';
 import Timer from './modules/timer/Timer';
 
 const messagesEl = document.querySelector('.messages');
