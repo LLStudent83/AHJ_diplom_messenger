@@ -1,18 +1,16 @@
-// import { messenger, inputForm, message } from '../../app';
-
 export default class PopUpAddFile {
   constructor() {
     this.container = document.getElementsByClassName('container');
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getHTMLPopUp(files) { // возвращает html разметку окна отправки файла
+  getPopUpHTML(files) { // возвращает html разметку окна отправки файла
     for (const file of files) {
       this.filesName = file.name;
     }
-    const HTML = `
+    const word = files.length > 1 ? 'файлы' : 'файл';
+    return `
         <form class="form_add_file" action="">
-          <h1 class="form_Name">Отправить ${files.length > 1 ? 'файлы' : 'файл'} с именем </h1>
+          <h1 class="form_Name">Отправить ${word} с именем </h1>
           <p>
           <span class="name_add_file">${this.filesName} ?</span>
           </p>
@@ -22,19 +20,17 @@ export default class PopUpAddFile {
           </footer>
         </form>
     `;
-    
-    return HTML;
   }
 
-  async renderingPopUp(files) { // отрисовывает окно отправки файла и ставит обработчик 'klick'
+  // отрисовывает окно отправки файла и ставит обработчик 'klick'
+  async renderingPopUp(files) {
     this.files = files;
     this.containerForm = document.createElement('div');
     this.containerForm.className = 'popup';
     this.container[0].append(this.containerForm);
-    this.containerForm.innerHTML = this.getHTMLPopUp(files);
+    this.containerForm.innerHTML = this.getPopUpHTML(files);
     return new Promise((resolve) => {
       this.containerForm.addEventListener('click', async (event) => {
-      // event.preventDefault();
         const resultPopUpAddFile = await this.onClickPopUp(event);
         if (resultPopUpAddFile === 'canсell') {
           resolve('canсell');

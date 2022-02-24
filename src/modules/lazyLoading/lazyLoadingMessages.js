@@ -31,10 +31,8 @@ export default class lazyLoadingMessages {
 
   // аргументы это entries - массив наблюдаемых объектов IntersectionObserverEntry
   //  и observer - наблюдатель с целевым элементом для просмотра
-  messageLoading(entries, observer) {
+  messageLoading(entries) {
     // подгрузить следующий объем сообщений
-    console.log('entries', entries);
-    console.log('observer', observer);
     const { target } = entries[0];
     if (entries[0].isIntersecting === true) { // если отслеживаемый объект пересек границу видимости
       this.observer.unobserve(target); // делаем его не отслеживаемым
@@ -43,7 +41,8 @@ export default class lazyLoadingMessages {
 
       // отрисовываем следующие 5 сообщений
       for (let i = this.sliceAllMessages.length - 1; i >= 0; i -= 1) {
-        const traceable = i === 0 ? 'traceable' : null; // если элемент последний в серии добавить ему класс traceable
+        // если элемент последний в серии добавить ему класс traceable
+        const traceable = i === 0 ? 'traceable' : null;
         this.sliceAllMessages[i].traceable = traceable;
         message.printMessage(this.sliceAllMessages[i], 'toTheBegining');
       }

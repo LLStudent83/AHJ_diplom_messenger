@@ -22,15 +22,15 @@ export default class Message {
     } = objMessageData;
 
     if (typeMes === 'text') {
-      this.HTML = this.createHTMLTextMessage(message, coordinates, login, dateMessage);
+      this.HTML = this.createTextMessageHTML(message, coordinates, login, dateMessage);
     }
     if (typeMes === 'audioRecord') {
-      this.HTML = this.createHTMLAudioMessage(message, coordinates, login, dateMessage);
+      this.HTML = this.createAudioMessageHTML(message, coordinates, login, dateMessage);
     }
     if (typeMes === 'image'
     || typeMes === 'audio'
     || typeMes === 'video') {
-      this.HTML = this.createHTMLFileMessage(message, coordinates,
+      this.HTML = this.createFileMessageHTML(message, coordinates,
         login, dateMessage, typeMes, filesName);
     }
     const messageEl = document.createElement('div');
@@ -44,7 +44,7 @@ export default class Message {
     this.assignHandler();
   }
 
-  createHTMLAudioMessage(dataURLBase64, coordinates, login, date) {
+  createAudioMessageHTML(dataURLBase64, coordinates, login, date) {
     let userName = null;
     // eslint-disable-next-line no-unused-expressions
     userName = this.getUserName(login);
@@ -59,7 +59,7 @@ export default class Message {
     </div>`;
   }
 
-  createHTMLTextMessage(text, coordinates, login, date) {
+  createTextMessageHTML(text, coordinates, login, date) {
     let userName = null;
     // eslint-disable-next-line no-unused-expressions
     userName = this.getUserName(login);
@@ -74,7 +74,7 @@ export default class Message {
         </div>`;
   }
 
-  createHTMLFileMessage(arrURLBase64, coordinates, login, date, typeFileName, filesName) {
+  createFileMessageHTML(arrURLBase64, coordinates, login, date, typeFileName, filesName) {
     const tag = typeFileName === 'image' ? 'img' : typeFileName;
     let userName = null;
     // eslint-disable-next-line no-unused-expressions
