@@ -113,7 +113,7 @@ export default class PopUp {
     this.form.addEventListener('click', (e) => { // обработаем клик на форме !!!!
       inputForm.eventHandler(e);
     });
-    this.inputFormEl.addEventListener('keydown', (e) => inputForm.eventHandler(e));
+    this.inputFormEl.addEventListener('keyup', (e) => inputForm.eventHandler(e));
     this.inputFormEl.addEventListener('drop', (e) => {
       e.preventDefault();
       this.inputFormEl.style.borderWidth = '1px';

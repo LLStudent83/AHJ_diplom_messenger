@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+// const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   target: 'web',
@@ -43,18 +43,6 @@ module.exports = {
         test: /\.svg$/,
         type: 'asset/resource',
       },
-      // {
-        // test: /sw\.js$/,
-        // type: 'asset/resource',
-        // loaders: [
-        //   {
-        //     loader: 'file-loader',
-        //     options: {
-        //       name: '[name].[ext]',
-        //     },
-        //   }
-        // ]
-      // },
     ]
   },
   plugins: [
@@ -66,9 +54,12 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
-    new WorkboxPlugin.GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true,
-    }),
+    // new WorkboxPlugin.GenerateSW({
+    //   clientsClaim: true,
+    //   skipWaiting: true,
+    // }),
+    // new WorkboxPlugin.InjectManifest({
+    //   swSrc: './src/service-worker.js',
+    // })
   ],
 };

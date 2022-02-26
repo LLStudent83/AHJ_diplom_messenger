@@ -29,7 +29,7 @@ const inputForm = new InputForm(argsInputForm);
 export {
   popUp, messenger, ws, inputForm, message, lazyLoadingMessages, gps,
 };
-
+// регистрирую serviceWorker
 // if ('serviceWorker' in navigator) {
 //   window.addEventListener('load', () => {
 //     navigator.serviceWorker.register('/service-worker.js');

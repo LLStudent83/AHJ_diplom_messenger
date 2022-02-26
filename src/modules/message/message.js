@@ -38,9 +38,13 @@ export default class Message {
     if (login === this.login) messageEl.classList.add('myMessage');
     if (traceable) messageEl.classList.add('traceable');
     messageEl.innerHTML = this.HTML;
-    if (place === 'toTheEnd') this.messagesContaner.append(messageEl);
-    if (place === 'toTheBegining') this.messagesContaner.prepend(messageEl);
-    this.messagesContaner.scrollTop = 9999999999;
+    if (place === 'toTheEnd') {
+      this.messagesContaner.append(messageEl);
+      this.messagesContaner.scrollTop = 9999999999;
+    }
+    if (place === 'toTheBegining') {
+      this.messagesContaner.prepend(messageEl);
+    }
     this.assignHandler();
   }
 

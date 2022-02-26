@@ -18,7 +18,9 @@ export default class InputForm {
     this.soundRecordingButton = document.querySelector('.postAudioRecording');
     const { target, key } = e;
     if (target === this.textarea && key === 'Enter') {
-      this.createTextMessage(this.textarea.value);
+      const textMessage = this.textarea.value;
+      document.querySelector('.messageInput').value = '';
+      this.createTextMessage(textMessage);
       return;
     }
     if (target === this.soundRecordingButton) {
