@@ -17,7 +17,6 @@
   margin-bottom: 10px;
 }
 
-
 .form_footer {
   width: 100%;
   display: flex;
@@ -35,7 +34,6 @@
   overflow: auto;
   width: 100%;
 }
-
 
 .activeUsers {
   border: 1px solid #726b6b;
@@ -58,7 +56,7 @@
 }
 
 .userYou {
-    color: red;
+  color: red;
 }
 
 .user::before {
@@ -72,9 +70,6 @@
   margin-right: 10px;
 }
 
-
-
-
 .buttonForm {
   width: 40px;
   height: 40px;
@@ -85,6 +80,9 @@
   cursor: pointer;
   flex-shrink: 0;
   box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: center;
+
 }
 
 .buttonForm:hover {
@@ -97,32 +95,28 @@
 
 .postAudioRecording {
   background-image: url(../../../img/microphone.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-
+  background-size: 30px;
 }
 
 .okAudioRecording {
   background-image: url(../../../img/m_images_mark.png);
-  background-repeat: no-repeat;
-  background-position: center;
   background-size: 15px;
 }
 
 .cansellAudioRecording {
   background-image: url(../../../img/m_png-clipclose-button.png);
-  background-repeat: no-repeat;
-  background-position: center;
   background-size: 15px;
 }
 
 .input__file-button {
   background-image: url(../../../img/paperClip.png);
-  background-repeat: no-repeat;
-  background-position: center;
   background-size: 40px;
   display: block;
+}
+
+.fixMessageButton {
+  background-image: url(../../../img/50_50drawing_pin.png);
+  background-size: 30px;
 }
 
 .input__file {
@@ -134,9 +128,9 @@
 .timer {
   font-size: 30px;
   text-align: center;
-width: 90px;
-height: 40px;
-margin-left: 15px;
+  width: 90px;
+  height: 40px;
+  margin-left: 15px;
 }
 
 .formText {
@@ -145,4 +139,17 @@ margin-left: 15px;
   outline: none;
   resize: none;
   border: none;
-} 
+}
+
+.pinnedArea {
+  border: 2px solid black;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 5px;
+  display: flex;
+}
+
+.unFixMessageButton {
+  background-image: url(../../../img/50_50undrawing_pin.png);
+  background-size: 30px;
+  margin-top: 5px;
+}

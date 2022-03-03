@@ -6,10 +6,11 @@ import {
 } from '../../app';
 
 export default class PopUp {
-  constructor(container) {
+  constructor(container, messageManagement) {
     if (typeof container === 'string') {
       this.container = document.querySelector('.container');
     } else this.container = container;
+    this.messageManagement = messageManagement;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -83,7 +84,6 @@ export default class PopUp {
     });
 
     this.inputFormEl = document.querySelector('.messageInput');
-    this.addFileInput = document.querySelector('.input__file'); // кнопка добавления файла
     this.form = document.querySelector('.form');
     this.addEventListenerMessenger();
     this.lastMessages = [];
@@ -110,8 +110,10 @@ export default class PopUp {
   }
 
   addEventListenerMessenger() {
+    this.addFileInputEl = document.querySelector('.input__file'); // кнопка добавления файла
     this.form.addEventListener('click', (e) => { // обработаем клик на форме !!!!
       inputForm.eventHandler(e);
+      this.messageManagement.eventHandlerClick(e);
     });
     this.inputFormEl.addEventListener('keyup', (e) => inputForm.eventHandler(e));
     this.inputFormEl.addEventListener('drop', (e) => {
@@ -126,7 +128,7 @@ export default class PopUp {
     this.inputFormEl.addEventListener('dragleave', () => {
       this.inputFormEl.style.borderWidth = '1px';
     });
-    this.addFileInput.addEventListener('change', () => {
+    this.addFileInputEl.addEventListener('change', () => {
       const addFileInput = document.querySelector('.input__file');
       const { files } = addFileInput;
       inputForm.createMessageFile(files);

@@ -10,12 +10,14 @@ import Ws from './modules/ws/Ws';
 import Gps from './modules/gps/Gps';
 import Message from './modules/message/Message';
 import Timer from './modules/timer/Timer';
+import MessageManagement from './modules/message/MessageManagement';
 
 const messagesEl = document.querySelector('.messages');
 const popUpAddFile = new PopUpAddFile();
 const timer = new Timer();
 const popUpGps = new PopUpGps();
-const popUp = new PopUp('container');
+const messageManagement = new MessageManagement();
+const popUp = new PopUp('container', messageManagement);
 const ws = new Ws(popUp);
 const lazyLoadingMessages = new LazyLoadingMessages(ws);
 const gps = new Gps(popUpGps);

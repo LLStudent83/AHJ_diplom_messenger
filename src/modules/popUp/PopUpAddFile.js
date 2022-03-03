@@ -45,11 +45,9 @@ export default class PopUpAddFile {
     return new Promise((resolve) => {
       const { target } = event;
       if (target === document.querySelector('.download_cancell')) {
-        // this.containerForm.remove();
         resolve('canсell');
       }
       if (target === document.querySelector('.download_ok')) {
-        // message.createFileMessage(this.files);
         resolve(this.files);
       }
     });
