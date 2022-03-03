@@ -1,8 +1,4 @@
 export default class MessageManagement {
-//   constructor() {
-
-  //   }
-
   eventHandlerClick(e) {
     // если кликаем по ссылке в сообщении то сообщение не выделяется
     const { target } = e;
@@ -19,7 +15,8 @@ export default class MessageManagement {
       return;
     }
     if (target.closest('.unFixMessageButton')) {
-      this.unFixMessage(this.messageEl);
+      const messageElHiding = document.querySelector('.messageHiding');
+      this.unFixMessage(messageElHiding);
     }
   }
 
@@ -91,16 +88,16 @@ export default class MessageManagement {
 
     this.pinnedArea.prepend(this.unFixMessageButtonEl);
 
+    this.messageEl.classList.remove('highlightMessage');
     this.dupMessageEl = messageEl.cloneNode(true);
     this.modifyDupMessageEl = this.modifyFixMessage(this.dupMessageEl);
-    this.dupMessageEl.classList.remove('highlightMessage');
     this.pinnedArea.append(this.dupMessageEl);
     messageEl.classList.add('messageHiding');
     this.dellButtonFixMessage();
   }
 
-  unFixMessage(messageEl) {
-    messageEl.classList.remove('messageHiding');
+  unFixMessage(messageElHiding) {
+    messageElHiding.classList.remove('messageHiding');
     this.pinnedArea.remove();
   }
 

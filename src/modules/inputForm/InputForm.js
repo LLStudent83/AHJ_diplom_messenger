@@ -12,7 +12,8 @@ export default class InputForm {
     this.lLM = argsInputForm.lazyLoadingMessages;
   }
 
-  // обрабатывает клик по кнопке записи аудио и при нажатии enter при отправке текстового сообщения
+  // обрабатывает клик по кнопке записи аудио и при нажатии enter
+  // при отправке текстового сообщения
   eventHandler(e) {
     this.textarea = document.querySelector('.messageInput');
     this.soundRecordingButton = document.querySelector('.postAudioRecording');

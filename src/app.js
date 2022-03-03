@@ -1,9 +1,9 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-cycle */
-import PopUp from './modules/popUp/PopUp';
-import PopUpGps from './modules/popUp/PopUpGPS';
-import PopUpAddFile from './modules/popUp/PopUpAddFile';
+import PopUp from './modules/popUp/PopUp.js';
+import PopUpGps from './modules/popUp/PopUpGPS.js';
+import PopUpAddFile from './modules/popUp/PopUpAddFile.js';
 import LazyLoadingMessages from './modules/lazyLoading/LazyLoadingMessages.js';
 import InputForm from './modules/inputForm/InputForm.js';
 import Messenger from './modules/messenger/Messenger.js';
@@ -32,9 +32,3 @@ const inputForm = new InputForm(argsInputForm);
 export {
   popUp, messenger, ws, inputForm, message, lazyLoadingMessages, gps,
 };
-// регистрирую serviceWorker
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', () => {
-//     navigator.serviceWorker.register('/service-worker.js');
-//   });
-// }
