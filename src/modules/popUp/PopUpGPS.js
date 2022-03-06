@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-cycle
 
-import validationCoord from '../../validation/validationCoord';
+import validationCoord from '../../validation/validationCoord.js';
 
 export default class PopUpGPS {
   constructor() {

@@ -12,6 +12,7 @@
       "LabeledStatement",
       "WithStatement"
     ],
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "import/extensions": [2, "always"]
   }
 }

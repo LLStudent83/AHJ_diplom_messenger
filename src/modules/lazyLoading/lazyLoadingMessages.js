@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { message } from '../../app';
+import { message } from '../../app.js';
 
 export default class lazyLoadingMessages {
   constructor(ws) {

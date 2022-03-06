@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 // eslint-disable-next-line import/no-cycle
-import { message } from '../../app';
+import { message } from '../../app.js';
 
 export default class Ws {
   constructor(popUp) {

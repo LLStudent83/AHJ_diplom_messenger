@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-cycle
 import {
   messenger, inputForm, message, lazyLoadingMessages,
-} from '../../app';
+} from '../../app.js';
 
 export default class PopUp {
   constructor(container, messageManagement) {

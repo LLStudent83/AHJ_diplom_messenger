@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { inputForm } from '../../app';
+import { inputForm } from '../../app.js';
 
 export default class Message {
   constructor(messages, gps, popUpAddFile) {
