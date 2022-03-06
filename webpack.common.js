@@ -7,6 +7,9 @@ module.exports = {
   entry: {
     main: path.resolve(__dirname, './src/index.js'),
 },
+stats: {
+  errorDetails: true,
+},
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '',
