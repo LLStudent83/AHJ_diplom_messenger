@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 
 // eslint-disable-next-line import/no-cycle
@@ -7,15 +8,21 @@ export default class Ws {
   constructor(popUp) {
     this.popUp = popUp;
     if (!this.ws) {
-      this.ws = new WebSocket('wss://ahj-diplom-messenger-server.herokuapp.com/'); // wss://ahj-diplom-messenger-server.herokuapp.com/
+      this.ws = new WebSocket(
+        'wss://ahj-diplom-messenger-server.herokuapp.com/',
+      ); // wss://ahj-diplom-messenger-server.herokuapp.com/
       this.addEventListener();
     }
   }
   // ws://localhost:8080
 
   addEventListener() {
-    this.ws.addEventListener('open', () => { console.log('WS соединенеие установлено'); });
-    this.ws.addEventListener('close', () => { console.log('WS соединенеие закрыто!!!!!!!!!!'); });
+    this.ws.addEventListener('open', () => {
+      console.log('WS соединенеие установлено');
+    });
+    this.ws.addEventListener('close', (e) => {
+      this.handlerCloseWS(e);
+    });
 
     this.ws.addEventListener('message', (e) => {
       this.handlerMessage(e);
@@ -25,12 +32,16 @@ export default class Ws {
     });
   }
 
-  sendMessage(_message) { // логика отправки сообщения на сервер
-    if (this.ws.readyState === WebSocket.OPEN) { this.ws.send(_message); }
-    this.login = JSON.parse(_message).login;// прокинул имя пользователя в ws
+  sendMessage(_message) {
+    // логика отправки сообщения на сервер
+    if (this.ws.readyState === WebSocket.OPEN) {
+      this.ws.send(_message);
+    }
+    this.login = JSON.parse(_message).login; // прокинул имя пользователя в ws
   }
 
-  handlerMessage(e) { // обрабатывает входящие сообщения
+  handlerMessage(e) {
+    // обрабатывает входящие сообщения
     const { action, response } = JSON.parse(e.data);
     const {
       activeUsers, allMessages, status, login,
@@ -45,16 +56,30 @@ export default class Ws {
         alert('Пользователь с таким именем в чате уже зарегистрирован');
       }
     }
-    if (action === 'postMessage') { // обработка поступившего с сервера сообщения
+    if (action === 'postMessage') {
+      // обработка поступившего с сервера сообщения
       if (login === this.login) return;
 
       message.printMessage(response, 'toTheEnd');
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   handlerErrorWS(e) {
     // eslint-disable-next-line no-console
     console.log('Произошла ошибка WS', e);
+  }
+
+  handlerCloseWS(e) {
+    console.log('WS Закрыт !!!!!!', e);
+    if (e.wasClean) {
+      console.log(`[close] Соединение закрыто чисто, код=${e.code} причина=${e.reason}`);
+    } else {
+      console.log(`[close] Соединение прервано код=${e.code} причина=${e.reason}`);
+      this.ws = new WebSocket(
+        'wss://ahj-diplom-messenger-server.herokuapp.com/',
+      ); // wss://ahj-diplom-messenger-server.herokuapp.com/
+      this.addEventListener();
+    }
+    }
   }
 }
