@@ -1,15 +1,15 @@
 /* eslint-disable import/no-cycle */
-import PopUp from './modules/popUp/PopUp.js';
-import PopUpGps from './modules/popUp/PopUpGPS.js';
-import PopUpAddFile from './modules/popUp/PopUpAddFile.js';
-import LazyLoadingMessages from './modules/lazyLoading/LazyLoadingMessages.js';
-import InputForm from './modules/inputForm/InputForm.js';
-import Messenger from './modules/messenger/Messenger.js';
-import Ws from './modules/ws/Ws.js';
-import Gps from './modules/gps/Gps.js';
-import Message from './modules/message/Message.js';
-import Timer from './modules/timer/Timer.js';
-import MessageManagement from './modules/message/MessageManagement.js';
+import PopUp from './modules/pop_up/pop_up.js';
+import PopUpGps from './modules/pop_up/pop_up_gps.js';
+import PopUpAddFile from './modules/pop_up/pop_up_add_file.js';
+import LazyLoadingMessages from './modules/lazy_loading/lazy_loading_messages.js';
+import InputForm from './modules/input_form/Input_form.js';
+import Messenger from './modules/messenger/messenger.js';
+import Ws from './modules/ws/ws.js';
+import Gps from './modules/gps/gps.js';
+import Message from './modules/message/message.js';
+import Timer from './modules/timer/timer.js';
+import MessageManagement from './modules/message/message_management.js';
 
 const messagesEl = document.querySelector('.messages');
 const popUpAddFile = new PopUpAddFile();
