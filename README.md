@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/jnhf1biwfuvdvaq8?svg=true)](https://ci.appveyor.com/project/LLStudent83/ahj-diplom-messenger)
+[![Build status](https://ci.appveyor.com/api/projects/status/dr1d9fb4fot6gy6s?svg=true)](https://ci.appveyor.com/project/LLStudent83/ahj-diplom-messenger-t7eg8)
 
 https://llstudent83.github.io/AHJ_diplom_messenger/
 
