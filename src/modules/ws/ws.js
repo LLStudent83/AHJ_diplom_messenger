@@ -80,6 +80,5 @@ export default class Ws {
       ); // wss://ahj-diplom-messenger-server.herokuapp.com/
       this.addEventListener();
     }
-    }
   }
 }
